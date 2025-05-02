@@ -1,0 +1,554 @@
+/* Chatbot.css - Enhanced UI - V2 - SCOPED VERSION */
+
+/* Apply Inter font if available (Global, generally safe) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ========================================= */
+/* Base Styles & Variables (Scoped to Container) */
+/* ========================================= */
+.chatbot-container {
+  /* === UPDATED/NEW VARIABLES === */
+  /* Interactive Palette (Adjust hues to match WalletWise if needed) */
+  --primary-hue: 245; /* Existing */
+  --primary-color: hsl(var(--primary-hue), 75%, 60%);
+  --primary-dark: hsl(var(--primary-hue), 75%, 50%);
+  --primary-light: hsl(var(--primary-hue), 80%, 97%);
+  --primary-gradient: linear-gradient(135deg, hsl(var(--primary-hue), 75%, 65%) 0%, hsl(var(--primary-hue), 80%, 55%) 100%);
+  --header-background: linear-gradient(135deg, hsl(var(--primary-hue), 70%, 58%) 0%, hsl(var(--primary-hue), 75%, 52%) 100%); /* NEW: Distinct Header Gradient */
+
+  /* Neutral Palette (Slightly warmer grays perhaps?) */
+  --neutral-hue: 220; /* Existing */
+  --neutral-100: hsl(var(--neutral-hue), 40%, 99%); /* Almost white, but not pure */
+  --neutral-200: hsl(var(--neutral-hue), 30%, 96%); /* Lighter gray */
+  --neutral-300: hsl(var(--neutral-hue), 25%, 90%); /* Light gray for borders */
+  --neutral-500: hsl(var(--neutral-hue), 12%, 65%); /* Medium gray text */
+  --neutral-700: hsl(var(--neutral-hue), 15%, 40%); /* Darker gray text */
+  --neutral-900: hsl(var(--neutral-hue), 25%, 15%); /* Near black text */
+  --container-background: white; /* NEW: Explicit white for container */
+  --chatlog-background: hsl(var(--neutral-hue), 30%, 98%); /* NEW: Very subtle gray for chat log */
+  --input-background: white; /* NEW: White for input area */
+
+
+  /* Status Colors */
+  --success-color: #10b981;
+  --error-color: #ef4444;
+  --warning-color: #f59e0b;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-size-sm: 0.8rem;
+  --font-size-base: 0.9375rem;
+  --font-size-lg: 1.05rem; /* Slightly smaller header font */
+  --line-height-base: 1.6;
+
+  /* Spacing & Radius */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.25rem; /* Slightly adjusted large space */
+  --space-xl: 2rem;
+  --radius-sm: 6px; /* Softened small radius */
+  --radius-md: 10px; /* Softened medium radius */
+  --radius-lg: 18px; /* Softened large radius */
+  --radius-xl: 24px; /* Softened container radius */
+  --radius-full: 9999px;
+
+  /* Shadows (Softer, more diffused) */
+  --shadow-sm: 0 2px 4px hsla(var(--primary-hue), 40%, 50%, 0.04);
+  --shadow-md: 0 5px 10px hsla(var(--primary-hue), 30%, 40%, 0.08);
+  --shadow-lg: 0 12px 24px -5px hsla(var(--primary-hue), 30%, 30%, 0.12);
+  --shadow-inset: inset 0 1px 2px 0 hsla(var(--primary-hue), 50%, 20%, 0.05);
+
+  /* Transitions */
+  --transition-base: all 0.25s ease-in-out;
+  --transition-fast: all 0.15s ease-in-out;
+  --transition-bounce: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  /* === END VARIABLES === */
+
+  /* === Base Styles for the container itself === */
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--neutral-700);
+
+  width: 100%;
+  /* max-width: 750px; */ /* INCREASED MAX WIDTH */
+  /* Or use percentage for better flexibility */
+   max-width: calc(100% - 4rem); /* Fill width minus some margin */
+   min-width: 400px; /* Ensure it doesn't get too small */
+
+  height: 700px; /* Keep height or adjust as needed */
+  max-height: calc(100vh - 100px); /* Prevent excessive height on tall screens */
+
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg); /* Use softer shadow */
+  overflow: hidden;
+  margin: 2rem auto; /* Keep centering for now */
+  position: relative;
+  background-color: var(--container-background); /* Use variable */
+  border: 1px solid var(--neutral-300); /* ADDED Subtle border */
+}
+
+/* REMOVED Animated Gradient Background - Replaced with subtle pattern below */
+/* .chatbot-container .chatbot-background { ... } */
+
+/* Keyframes remain global (keep if needed for other animations) */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+@keyframes subtlePulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+@keyframes slideInUp {
+  0% { transform: translateY(100%); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes typingScale {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+
+/* ========================================= */
+/* Chat Header - Enhanced & Scoped           */
+/* ========================================= */
+.chatbot-container .chat-header {
+  display: flex;
+  align-items: center;
+  padding: var(--space-sm) var(--space-lg);
+  /* background: var(--header-background); */ /* APPLY new gradient */
+  background-color: white; /* Or a solid color if gradient is too much */
+  color: var(--neutral-900); /* Adjust text color for header background */
+  /* border-bottom: 1px solid hsla(0, 0%, 100%, 0.15); */ /* Lighter border for dark bg */
+   border-bottom: 1px solid var(--neutral-300); /* Border if using white bg */
+  position: relative;
+  flex-shrink: 0;
+  transition: box-shadow var(--transition-fast);
+  box-shadow: var(--shadow-sm); /* Add subtle shadow separation */
+}
+
+/* Shadow when chat log is scrolled */
+.chatbot-container .chat-log.scrolled ~ .chat-header {
+   /* Keep header shadow consistent */
+   box-shadow: var(--shadow-md);
+}
+
+.chatbot-container .chat-avatar {
+  width: 38px; /* Slightly smaller avatar */
+  height: 38px;
+  border-radius: var(--radius-full);
+  background: var(--primary-gradient);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: var(--space-md); /* Increased spacing */
+  box-shadow: none; /* Remove shadow if header has one */
+}
+
+.chatbot-container .chat-avatar svg {
+  width: 20px; /* Adjust icon size */
+  height: 20px;
+}
+
+.chatbot-container .header-text {
+  flex-grow: 1;
+}
+
+.chatbot-container .header-text h3 {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: inherit; /* Inherit color from header */
+  line-height: 1.3;
+}
+
+.chatbot-container .chat-status {
+  font-size: var(--font-size-sm);
+  /* color: hsla(0, 0%, 100%, 0.8); */ /* Lighter color for dark bg */
+  color: var(--success-color); /* Color for white bg */
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.chatbot-container .status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  /* background-color: hsla(0, 0%, 100%, 0.8); */ /* Color for dark bg */
+  background-color: var(--success-color); /* Color for white bg */
+  margin-left: var(--space-xs);
+  position: relative;
+  animation: subtlePulse 2.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+/* ========================================= */
+/* Chat Log - Enhanced & Scoped              */
+/* ========================================= */
+.chatbot-container .chat-log {
+  flex-grow: 1;
+  padding: var(--space-lg); /* Consistent padding */
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  background-color: var(--chatlog-background); /* Use subtle background color */
+
+  /* ADD Subtle Background Pattern */
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23eeeeee' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-size: 40px 40px; /* Adjust pattern size */
+
+  /* Custom scrollbar */
+  &::-webkit-scrollbar {
+    width: 8px; /* Slightly wider */
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--neutral-hue), 15%, 85%); /* Lighter thumb */
+    border-radius: var(--radius-full);
+    border: 2px solid var(--chatlog-background); /* Match background */
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--neutral-hue), 15%, 75%); /* Darken on hover */
+  }
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--neutral-hue), 15%, 85%) transparent;
+}
+
+.chatbot-container .message-container {
+  display: flex;
+  width: 100%;
+  margin-bottom: var(--space-xs);
+}
+
+.chatbot-container .user-container {
+  justify-content: flex-end;
+  padding-left: 4rem; /* More indent */
+}
+
+.chatbot-container .bot-container {
+  justify-content: flex-start;
+  padding-right: 4rem; /* More indent */
+}
+
+.chatbot-container .message {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-lg);
+  max-width: 80%; /* Slightly narrower max */
+  word-wrap: break-word;
+  line-height: var(--line-height-base);
+  position: relative;
+  box-shadow: var(--shadow-md); /* Use softer shadow */
+  transition: var(--transition-base), transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid transparent; /* Base border */
+}
+
+.chatbot-container .message:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg); /* Use softer hover shadow */
+}
+
+.chatbot-container .slide-in-up {
+  animation: slideInUp 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+.chatbot-container .message.user {
+  background: var(--primary-gradient);
+  color: white;
+  border-bottom-right-radius: var(--radius-sm); /* Sharper corner */
+  border-color: transparent;
+}
+
+.chatbot-container .message.bot {
+  background-color: white;
+  color: var(--neutral-900);
+  border: 1px solid var(--neutral-300); /* Use subtle border */
+  border-bottom-left-radius: var(--radius-sm); /* Sharper corner */
+  box-shadow: var(--shadow-sm); /* Lighter shadow for bot messages */
+}
+
+.chatbot-container .message.error {
+  background-color: hsl(0, 84%, 97%);
+  border: 1px solid hsl(0, 70%, 85%);
+  color: hsl(0, 60%, 40%);
+}
+.chatbot-container .message.error .message-time {
+  color: hsl(0, 40%, 60%);
+}
+
+
+.chatbot-container .message-content {
+  /* Styles if needed */
+}
+
+.chatbot-container .message-time {
+  font-size: var(--font-size-sm);
+  color: var(--neutral-500);
+  margin-top: var(--space-sm); /* More space above time */
+  text-align: right;
+  align-self: flex-end;
+  opacity: 0.8;
+}
+
+.chatbot-container .user .message-time {
+  color: hsla(0, 0%, 100%, 0.7);
+}
+
+/* ========================================= */
+/* Typing Indicator - Scoped                 */
+/* ========================================= */
+.chatbot-container .typing-indicator {
+  display: flex;
+  align-items: center;
+  padding: calc(var(--space-sm) + 4px) var(--space-md); /* Match message padding adjusted for dots */
+  min-height: 50px; /* Match typical message height */
+  box-sizing: border-box;
+  /* Inherits .message.bot styles */
+}
+
+.chatbot-container .typing-dot {
+  width: 9px; /* Slightly larger dots */
+  height: 9px;
+  background-color: var(--neutral-500);
+  border-radius: var(--radius-full);
+  margin: 0 3px;
+  animation: typingScale 1.5s infinite ease-in-out;
+}
+/* delays remain same */
+.chatbot-container .typing-dot:nth-child(1) { animation-delay: 0s; }
+.chatbot-container .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.chatbot-container .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* ========================================= */
+/* Chat Input Area - Enhanced & Scoped       */
+/* ========================================= */
+.chatbot-container .chat-input-form {
+  display: flex;
+  align-items: center;
+  padding: var(--space-md) var(--space-lg); /* More padding */
+  border-top: 1px solid var(--neutral-300);
+  background-color: var(--input-background);
+  position: relative;
+  gap: var(--space-md); /* More gap */
+  transition: box-shadow var(--transition-fast);
+  box-shadow: 0 -2px 5px hsla(var(--primary-hue), 30%, 30%, 0.03); /* Subtle top shadow */
+}
+
+.chatbot-container .input-wrapper {
+  flex-grow: 1;
+  position: relative;
+  display: flex;
+}
+
+.chatbot-container .chat-input {
+  flex-grow: 1;
+  padding: 14px var(--space-lg); /* Generous padding */
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-md); /* Match medium radius */
+  font-size: var(--font-size-base);
+  font-family: var(--font-sans);
+  color: var(--neutral-900);
+  background-color: white; /* Clear white input */
+  transition: var(--transition-base);
+  outline: none;
+  box-shadow: none; /* Remove inset shadow */
+}
+.chatbot-container .chat-input:focus {
+  border-color: var(--primary-color);
+  background-color: white;
+  /* More prominent focus ring */
+  box-shadow: 0 0 0 4px hsla(var(--primary-hue), 75%, 60%, 0.1);
+}
+
+.chatbot-container .chat-input::placeholder {
+  color: var(--neutral-500);
+  opacity: 0.9;
+}
+
+.chatbot-container .icon-button { /* Base style for potential future icons */
+  padding: var(--space-xs);
+  background: none; border: none; cursor: pointer;
+  color: var(--neutral-500); border-radius: var(--radius-full);
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition-fast);
+}
+.chatbot-container .icon-button svg { width: 20px; height: 20px; }
+.chatbot-container .icon-button:hover { color: var(--primary-color); background-color: var(--primary-light); }
+.chatbot-container .icon-button:active { transform: scale(0.9); }
+
+.chatbot-container .send-button {
+  width: 46px; /* Slightly larger button */
+  height: 46px;
+  min-width: 46px;
+  border-radius: var(--radius-md); /* Match input radius */
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-base), var(--transition-bounce);
+  box-shadow: var(--shadow-sm);
+}
+
+.chatbot-container .send-button svg {
+  width: 22px; /* Larger icon */
+  height: 22px;
+}
+
+.chatbot-container .send-button:hover {
+  box-shadow: var(--shadow-md);
+  filter: brightness(1.1);
+}
+
+.chatbot-container .send-button:active {
+  transform: scale(0.92);
+  filter: brightness(1);
+}
+
+.chatbot-container .send-button:disabled {
+  background: var(--neutral-300);
+  cursor: not-allowed;
+  box-shadow: none; filter: none; transform: scale(1);
+  color: var(--neutral-500);
+}
+
+/* ========================================= */
+/* Scroll To Bottom Button - Scoped          */
+/* ========================================= */
+.chatbot-container .scroll-to-bottom {
+  position: absolute;
+  right: var(--space-lg);
+  bottom: calc(var(--space-lg) + 80px); /* Adjusted position based on taller input area */
+  background-color: white;
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-full);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.2s ease;
+  opacity: 0;
+  transform: translateY(10px) scale(0.9);
+  pointer-events: none;
+}
+/* Visible state and hover/active remain the same */
+.chatbot-container .scroll-to-bottom.visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+.chatbot-container .scroll-to-bottom:hover { background-color: var(--neutral-200); box-shadow: var(--shadow-lg); transform: scale(1.05); }
+.chatbot-container .scroll-to-bottom:active { background-color: var(--neutral-300); transform: scale(0.95); }
+.chatbot-container .scroll-to-bottom svg { width: 20px; height: 20px; color: var(--neutral-700); }
+
+/* ========================================= */
+/* Responsiveness - Scoped                   */
+/* ========================================= */
+@media (max-width: 768px) {
+  .chatbot-container {
+    max-width: 100%; width: 100%; height: 100%; max-height: 100%;
+    border-radius: 0; border: none; margin: 0; box-shadow: none;
+    min-width: unset; /* Remove min-width on mobile */
+  }
+  .chatbot-container .chat-header { padding: var(--space-sm) var(--space-md); border-radius: 0; }
+  .chatbot-container .chat-log { padding: var(--space-md); }
+  .chatbot-container .chat-input-form { padding: var(--space-sm) var(--space-md); border-radius: 0; gap: var(--space-sm); }
+  .chatbot-container .message { max-width: 90%; }
+  .chatbot-container .user-container,
+  .chatbot-container .bot-container { padding-left: 1rem; padding-right: 1rem; }
+  .chatbot-container .scroll-to-bottom { right: var(--space-md); bottom: calc(var(--space-lg) + 75px); }
+  .chatbot-container .chat-input { padding: 12px var(--space-md); }
+  .chatbot-container .send-button { width: 42px; height: 42px; min-width: 42px;}
+  .chatbot-container .send-button svg { width: 20px; height: 20px; }
+
+}
+
+/* ========================================= */
+/* Dark Mode - Scoped (Apply .dark-mode to .chatbot-container) */
+/* ========================================= */
+.chatbot-container.dark-mode {
+  /* Dark Palette Overrides */
+  --primary-color: hsl(var(--primary-hue), 65%, 65%);
+  --primary-dark: hsl(var(--primary-hue), 65%, 55%);
+  --primary-light: hsla(var(--primary-hue), 40%, 25%, 0.5);
+  --primary-gradient: linear-gradient(135deg, hsl(var(--primary-hue), 65%, 60%) 0%, hsl(var(--primary-hue), 70%, 50%) 100%);
+  --header-background: linear-gradient(135deg, hsl(var(--primary-hue), 55%, 35%) 0%, hsl(var(--primary-hue), 60%, 28%) 100%); /* Dark header gradient */
+
+  --neutral-100: #111827;
+  --neutral-200: #1f2937;
+  --neutral-300: #374151;
+  --neutral-500: #9ca3af;
+  --neutral-700: #d1d5db;
+  --neutral-900: #f3f4f6;
+  --container-background: var(--neutral-200); /* Dark container background */
+  --chatlog-background: #161d2b; /* Slightly different dark for log */
+  --input-background: var(--neutral-200); /* Match container */
+
+  /* Dark Shadows */
+  --shadow-sm: 0 2px 4px hsla(var(--primary-hue), 50%, 3%, 0.08);
+  --shadow-md: 0 5px 10px hsla(var(--primary-hue), 40%, 4%, 0.12);
+  --shadow-lg: 0 12px 24px -5px hsla(var(--primary-hue), 40%, 4%, 0.18);
+  --shadow-inset: inset 0 1px 2px 0 hsla(var(--primary-hue), 50%, 3%, 0.1);
+
+  /* Dark mode base container styles */
+  background-color: var(--container-background);
+  color: var(--neutral-700);
+  border-color: var(--neutral-300); /* Darker border */
+}
+
+/* Dark mode specific adjustments */
+.chatbot-container.dark-mode .chat-header {
+  /* background: var(--header-background); */ /* Apply dark gradient */
+  background-color: var(--neutral-300); /* Or solid dark color */
+  color: var(--neutral-900);
+  border-bottom-color: hsla(0, 0%, 100%, 0.1);
+   box-shadow: var(--shadow-sm);
+}
+/* ... (rest of dark mode styles adjusted similarly for new variables/styles) ... */
+.chatbot-container.dark-mode .chat-log {
+  background-color: var(--chatlog-background);
+  /* Dark mode pattern adjustment if needed, or remove pattern */
+   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23374151' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  &::-webkit-scrollbar-thumb { background-color: var(--neutral-300); border-color: var(--chatlog-background); }
+  &::-webkit-scrollbar-thumb:hover { background-color: var(--neutral-500); }
+  scrollbar-color: var(--neutral-300) transparent;
+}
+.chatbot-container.dark-mode .message.bot {
+  background-color: var(--neutral-300); /* Darker bot bubble */
+  border-color: var(--neutral-500);
+  color: var(--neutral-900);
+  box-shadow: var(--shadow-sm);
+}
+.chatbot-container.dark-mode .message-time { color: var(--neutral-500); }
+.chatbot-container.dark-mode .user .message-time { color: hsla(0, 0%, 95%, 0.6); }
+.chatbot-container.dark-mode .message.error { background-color: hsl(0, 30%, 25%); border-color: hsl(0, 40%, 40%); color: hsl(0, 80%, 85%); }
+.chatbot-container.dark-mode .message.error .message-time { color: hsl(0, 50%, 70%); }
+.chatbot-container.dark-mode .typing-indicator { background-color: var(--neutral-300); border-color: var(--neutral-500); }
+.chatbot-container.dark-mode .typing-dot { background-color: var(--neutral-500); }
+.chatbot-container.dark-mode .chat-input-form { background-color: var(--input-background); border-top-color: var(--neutral-300); box-shadow: 0 -2px 5px hsla(var(--primary-hue), 40%, 4%, 0.08); }
+.chatbot-container.dark-mode .chat-input { background-color: var(--neutral-100); border-color: var(--neutral-300); color: var(--neutral-900); box-shadow: none; }
+.chatbot-container.dark-mode .chat-input:focus { border-color: var(--primary-color); background-color: var(--neutral-100); box-shadow: 0 0 0 4px hsla(var(--primary-hue), 65%, 65%, 0.1); }
+.chatbot-container.dark-mode .chat-input::placeholder { color: var(--neutral-500); }
+.chatbot-container.dark-mode .icon-button { color: var(--neutral-500); }
+.chatbot-container.dark-mode .icon-button:hover { color: var(--primary-color); background-color: hsla(var(--primary-hue), 40%, 25%, 0.5); }
+.chatbot-container.dark-mode .send-button { /* Gradient should still work */ }
+.chatbot-container.dark-mode .send-button:disabled { background: var(--neutral-300); color: var(--neutral-500); }
+.chatbot-container.dark-mode .scroll-to-bottom { background-color: var(--neutral-300); border-color: var(--neutral-500); box-shadow: var(--shadow-md); }
+.chatbot-container.dark-mode .scroll-to-bottom svg { color: var(--neutral-700); }
+.chatbot-container.dark-mode .scroll-to-bottom:hover { background-color: var(--neutral-500); }
+.chatbot-container.dark-mode .scroll-to-bottom:active { background-color: var(--neutral-700); }

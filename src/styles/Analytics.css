@@ -1,0 +1,844 @@
+/* styles/Analytics.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #4a90e2; /* A nice blue */
+    --secondary-color: #50e3c2; /* A teal/aqua */
+    --text-color: #333;
+    --text-light: #666;
+    --text-lighter: #999;
+    --bg-color: #f4f7f9; /* Light background */
+    --card-bg: #ffffff;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --danger-color: #e74c3c;
+    --success-color: #2ecc71;
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --border-radius: 8px;
+    --card-padding: 20px;
+    --section-gap: 30px;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: var(--font-family);
+    color: var(--text-color);
+}
+
+.analytics-container.modern {
+    max-width: 1400px; /* Wider container for better layout */
+    margin: 20px auto; /* Add some top/bottom margin */
+    padding: var(--section-gap);
+    font-family: var(--font-family);
+}
+
+/* --- Header --- */
+.analytics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--section-gap);
+    flex-wrap: wrap;
+    gap: 15px; /* Add gap for wrapping */
+}
+
+.analytics-header h1 {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 28px; /* Larger title */
+    font-weight: 600;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between timeframe and back button */
+    flex-wrap: wrap;
+}
+
+.timeframe-selector {
+    display: flex;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 5px;
+    box-shadow: 0 1px 3px var(--shadow-color);
+}
+
+.timeframe-selector button {
+    background-color: transparent;
+    border: none;
+    padding: 8px 16px;
+    border-radius: calc(var(--border-radius) - 2px);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-light);
+    transition: all 0.3s ease;
+}
+
+.timeframe-selector button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--text-color);
+}
+
+.timeframe-selector button.active {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 2px 4px rgba(74, 144, 226, 0.3);
+}
+
+.back-button {
+    background-color: var(--text-light);
+    color: white;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: var(--text-color);
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+/* --- Loading & Messages --- */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    font-size: 18px;
+    color: var(--text-light);
+}
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: var(--primary-color);
+    margin-bottom: 15px;
+    animation: spin 1s ease infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error-message, .info-message {
+    background-color: var(--danger-color);
+    color: white;
+    padding: 15px var(--card-padding);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--section-gap);
+    text-align: center;
+    font-weight: 500;
+}
+.info-message {
+    background-color: var(--primary-color);
+}
+
+/* --- Summary Cards --- */
+.summary-cards {
+    display: grid;
+    /* Adjust columns for better fit */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--section-gap);
+    margin-bottom: var(--section-gap);
+}
+
+.summary-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--card-padding);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    display: flex; /* Use flex for icon alignment */
+    align-items: center;
+    gap: 20px; /* Space between icon and content */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.summary-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.card-icon {
+    font-size: 24px;
+    color: var(--primary-color);
+    background-color: rgba(74, 144, 226, 0.1); /* Light background for icon */
+    padding: 12px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.summary-card.comparison .card-icon .increase { color: var(--danger-color); }
+.summary-card.comparison .card-icon .decrease { color: var(--success-color); }
+.summary-card.comparison .card-icon .no-change { color: var(--text-light); }
+
+.card-content {
+    flex-grow: 1;
+}
+
+.summary-card h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: var(--text-light);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.summary-card .amount {
+    font-size: 26px;
+    font-weight: 600;
+    margin: 5px 0;
+    color: var(--text-color);
+    line-height: 1.2;
+}
+.summary-card .amount.percentage {
+    font-size: 24px; /* Slightly smaller for percentage */
+}
+
+.summary-card .label {
+    color: var(--text-lighter);
+    font-size: 12px;
+    margin: 0;
+}
+
+.comparison-details {
+    font-size: 11px;
+    color: var(--text-lighter);
+    margin-top: 8px;
+}
+
+.increase { color: var(--danger-color); }
+.decrease { color: var(--success-color); }
+.no-change { color: var(--text-light); }
+
+/* --- Analytics Grid & Charts --- */
+.analytics-grid {
+    display: grid;
+    /* Flexible grid, allowing wide charts */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    gap: var(--section-gap);
+    margin-bottom: var(--section-gap);
+}
+
+.chart-container {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--card-padding);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    display: flex;
+    flex-direction: column; /* Ensure chart fills container */
+    min-height: 350px; /* Ensure consistent height */
+}
+
+.chart-container.wide {
+    /* Example for making a chart span more columns if needed */
+     grid-column: span 1 / auto; /* Default span */
+}
+@media (min-width: 992px) { /* On larger screens, allow wide chart to span 2 cols */
+  .chart-container.wide { grid-column: span 2 / auto; }
+}
+@media (min-width: 1400px) { /* On very large screens, span 3 */
+  .chart-container.wide { grid-column: span 3 / auto; }
+}
+
+
+.chart-header {
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+.chart-header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.chart-header h2 svg {
+    color: var(--primary-color);
+}
+.chart-header small {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 4px;
+    display: block;
+}
+
+
+.recharts-wrapper {
+    flex-grow: 1; /* Make chart container take available space */
+}
+
+/* --- Specific Chart Styling --- */
+
+/* Tooltip */
+.custom-tooltip.chart-tooltip {
+    background-color: rgba(40, 40, 40, 0.9); /* Darker tooltip */
+    border: none;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    color: #fff; /* White text */
+}
+.custom-tooltip .tooltip-label {
+    margin: 0 0 5px 0;
+    font-weight: 600;
+    font-size: 13px;
+    color: #eee;
+    border-bottom: 1px solid #555;
+    padding-bottom: 4px;
+}
+.custom-tooltip p {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #ddd;
+}
+.custom-tooltip .tooltip-secondary {
+    color: #bbb;
+    font-size: 11px;
+}
+
+/* Legend */
+.recharts-legend-wrapper {
+    font-size: 12px !important; /* Smaller legend text */
+    padding-top: 10px;
+}
+
+/* Pie Chart + List */
+.chart-container.combined-chart {
+     /* Allow internal elements to control height */
+    min-height: auto;
+}
+
+.pie-list-container {
+    display: flex;
+    flex-direction: column; /* Stack pie and list vertically by default */
+    gap: 20px;
+    flex-grow: 1;
+}
+
+@media (min-width: 768px) { /* Side-by-side on larger screens */
+    .pie-list-container {
+        flex-direction: row;
+        align-items: flex-start; /* Align items to top */
+    }
+}
+
+.pie-chart-wrapper {
+    flex: 1 1 50%; /* Flex basis 50% */
+    min-width: 200px; /* Ensure pie doesn't get too small */
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+
+.category-list-wrapper {
+    flex: 1 1 50%; /* Flex basis 50% */
+    max-height: 250px; /* Limit height and make scrollable */
+    overflow-y: auto;
+    padding-right: 10px; /* Space for scrollbar */
+}
+
+.category-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-list li {
+    display: flex;
+    align-items: center;
+    padding: 8px 5px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    transition: background-color 0.2s ease;
+    cursor: default; /* Indicate interaction on hover */
+}
+
+.category-list li.active {
+    background-color: rgba(74, 144, 226, 0.1); /* Highlight active item */
+}
+
+.category-color-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.category-name {
+    flex-grow: 1;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+    color: var(--text-color);
+}
+
+.category-value {
+    font-size: 13px;
+    font-weight: 500;
+    margin-left: auto; /* Push value and percent to the right */
+    padding-left: 10px;
+    color: var(--text-color);
+}
+
+.category-percent {
+    font-size: 11px;
+    color: var(--text-light);
+    margin-left: 5px;
+    white-space: nowrap;
+}
+
+.no-data-chart {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 14px;
+    margin-top: 30px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Top Expenses --- */
+.top-expenses-section {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: var(--card-padding);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    margin-bottom: var(--section-gap);
+}
+
+.top-expenses-list {
+    display: grid;
+    /* Responsive columns for expense cards */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.expense-card {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: var(--bg-color); /* Slightly different background */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    gap: 15px;
+    transition: all 0.2s ease;
+}
+
+.expense-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+.expense-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.expense-details {
+    flex-grow: 1;
+    overflow: hidden; /* Prevent long text breaking layout */
+}
+
+.expense-details h3 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.expense-details .category {
+    margin: 0 0 4px;
+    font-size: 12px;
+    color: var(--primary-color); /* Use primary color for category */
+    font-weight: 500;
+}
+
+.expense-details .date {
+    margin: 0;
+    font-size: 11px;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.expense-amount {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text-color);
+    white-space: nowrap; /* Prevent wrapping */
+    margin-left: 10px; /* Ensure spacing */
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .analytics-container.modern {
+        padding: 15px; /* Less padding on small screens */
+    }
+    .analytics-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .header-controls {
+        width: 100%; /* Take full width */
+        justify-content: space-between; /* Space out controls */
+    }
+    .timeframe-selector {
+         flex-grow: 1; /* Allow selector to grow */
+         justify-content: center; /* Center buttons */
+    }
+     .timeframe-selector button {
+         padding: 8px 10px; /* Smaller buttons */
+         font-size: 13px;
+     }
+    .back-button {
+         padding: 8px 15px;
+         font-size: 13px;
+     }
+    .summary-cards,
+    .analytics-grid,
+    .top-expenses-list {
+        grid-template-columns: 1fr; /* Stack cards/charts */
+        gap: 15px; /* Reduce gap */
+    }
+
+     .chart-container.wide {
+         grid-column: span 1 / auto; /* Force single column */
+     }
+
+     .pie-list-container {
+         flex-direction: column; /* Ensure vertical stack */
+     }
+     .category-list-wrapper {
+         max-height: 200px; /* Adjust height */
+     }
+      /* Adjust chart tick font size */
+     .recharts-wrapper .recharts-cartesian-axis-tick {
+        font-size: 9px !important;
+     }
+}
+
+@media (max-width: 480px) {
+    .analytics-header h1 {
+        font-size: 22px;
+    }
+    .summary-card {
+        flex-direction: column; /* Stack icon and content vertically */
+        align-items: flex-start; /* Align content left */
+        text-align: left;
+        gap: 10px;
+    }
+    .summary-card .amount {
+        font-size: 22px;
+    }
+     .expense-card {
+         flex-direction: column;
+         align-items: flex-start;
+     }
+     .expense-amount {
+         margin-left: 0;
+         margin-top: 5px;
+         align-self: flex-end;
+     }
+}
+/* Add to your Analytics.css */
+/* Dropdown styles */
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+}
+
+.dropdown-menu button {
+    padding: 8px 16px;
+    background: none;
+    border: none;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.dropdown-menu button:hover {
+    background: #f5f5f5;
+}
+
+.custom-range-picker {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+/* AI Summary */
+.ai-summary {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 4px solid var(--primary-color);
+}
+
+/* Budget Gauge */
+.budget-gauge .gauge-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.gauge-labels {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.edit-budget {
+    margin-top: 10px;
+    background: #f0f0f0;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.budget-edit {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.budget-edit input {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100px;
+}
+
+/* Calendar Heatmap */
+.heatmap-container {
+    overflow-x: auto;
+    padding: 10px 0;
+}
+
+.react-calendar-heatmap {
+    min-width: 800px;
+}
+
+.react-calendar-heatmap .color-empty {
+    fill: #ebedf0;
+}
+
+.react-calendar-heatmap .color-github-0 {
+    fill: #ebedf0;
+}
+.react-calendar-heatmap .color-github-1 {
+    fill: #9be9a8;
+}
+.react-calendar-heatmap .color-github-2 {
+    fill: #40c463;
+}
+.react-calendar-heatmap .color-github-3 {
+    fill: #30a14e;
+}
+.react-calendar-heatmap .color-github-4 {
+    fill: #216e39;
+}
+.react-calendar-heatmap .color-github-5 {
+    fill: #144d25;
+}
+.custom-range-picker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 15px;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.date-picker-input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.date-picker-input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.date-range-separator {
+    color: #666;
+    font-weight: bold;
+}
+
+.apply-date-range {
+    padding: 8px 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.apply-date-range:hover {
+    background-color: #2980b9;
+}
+
+.apply-date-range:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+/* styles/Analytics.css */
+/* ... other styles ... */
+
+/* React DatePicker Overrides for Hover Highlight */
+.react-datepicker__day {
+    transition: background-color 0.2s ease;
+    border-radius: 4px; /* Add a slight rounding for the hover effect */
+}
+
+.react-datepicker__day:hover,
+.react-datepicker__day--highlighted-custom:hover,
+.react-datepicker__day--highlighted-custom-2:hover {
+    background-color: rgba(52, 152, 219, 0.3) !important; /* Light blue hover */
+    color: var(--text-color); /* Ensure text remains readable */
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+.react-datepicker__day--disabled {
+    color: #ccc !important;
+    cursor: not-allowed;
+}
+
+.react-datepicker__navigation {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text-color);
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.react-datepicker__navigation:hover {
+    opacity: 0.8;
+}
+
+.react-datepicker__month-container {
+    padding: 10px;
+}
+
+.react-datepicker__current-month {
+    font-size: 1em;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.react-datepicker__day-names {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 5px;
+    padding: 0 5px;
+}
+
+.react-datepicker__day-name {
+    color: var(--text-light);
+    font-size: 0.8em;
+    width: 2.5em; /* Adjust width for spacing */
+    text-align: center;
+}
+
+.react-datepicker__week {
+    display: flex;
+    justify-content: space-around;
+    padding: 0 5px;
+}
+
+.react-datepicker__day {
+    width: 2.5em; /* Adjust width for spacing */
+    line-height: 2.5em; /* Make it circular or square-like */
+    text-align: center;
+    font-size: 0.9em;
+    color: var(--text-color);
+}
+
+.react-datepicker__today-button {
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 10px;
+}
+
+.react-datepicker__today-button:hover {
+    background-color: #43b89e; /* Darker shade of secondary */
+}

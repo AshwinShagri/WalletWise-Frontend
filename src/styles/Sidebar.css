@@ -1,0 +1,176 @@
+/* Import variables if needed */
+ /* Optional: only if variables aren't global */
+
+/*-------------------------*\
+  #SIDEBAR STYLING
+\*-------------------------*/
+
+.sidebar {
+    width: var(--sidebar-width);
+    background: linear-gradient(180deg, var(--sidebar-bg) 0%, #1a233a 100%, #0e1c3e);
+    color: var(--sidebar-text);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: var(--z-index-sidebar);
+    transition: width var(--transition-base);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+  .sidebar-header {
+    padding: var(--spacing-lg) var(--spacing-md);
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .logo-link-sidebar {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  .app-logo-sidebar {
+    height: 40px;
+    margin-right: var(--spacing-sm);
+  }
+  
+  .sidebar-logo {
+    color: #b8aa9b;
+    font-family: var(--font-family-logo);
+    font-size: 30px;
+    font-weight: 1200;
+    letter-spacing: 1px;
+    transition: opacity var(--transition-base);
+  }
+  
+  .user-info {
+    padding: var(--spacing-lg) var(--spacing-md);
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: opacity var(--transition-base);
+  }
+  
+  .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--border-radius-full);
+    border: 3px solid var(--primary-color-light);
+    object-fit: cover;
+    margin: 0 auto var(--spacing-md);
+    transition: transform var(--transition-base);
+  }
+  .avatar:hover {
+    transform: scale(1.05);
+  }
+  
+  .user-name {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--sidebar-text-hover);
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .user-email {
+    font-size: var(--font-size-sm);
+    color: var(--sidebar-icon-color);
+    word-break: break-word;
+  }
+  
+  /* New structure for sidebar menu */
+  .sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: var(--spacing-md) 0;
+  }
+  
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .nav-link {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin: var(--spacing-xs) var(--spacing-sm);
+    color: var(--sidebar-text);
+    font-size: var(--font-size-base);
+    border-radius: var(--border-radius-md);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+    position: relative;
+    width: calc(100% - 2 * var(--spacing-sm));
+    text-align: left;
+    text-decoration: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--sidebar-text-hover);
+  }
+  
+  .nav-link.active {
+    background-color: var(--sidebar-active-bg);
+    color: var(--primary-color-light);
+    font-weight: 500;
+  }
+  
+  .nav-link.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10%;
+    bottom: 10%;
+    width: 4px;
+    background-color: var(--primary-color-light);
+    border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+  }
+  
+  .nav-icon {
+    margin-right: var(--spacing-md);
+    font-size: 1.2em;
+    min-width: 20px;
+    text-align: center;
+    color: var(--sidebar-icon-color);
+    transition: color var(--transition-fast);
+  }
+  
+  .nav-link:hover .nav-icon,
+  .nav-link.active .nav-icon {
+    color: var(--primary-color-light);
+  }
+  
+  /* Push logout button to bottom of menu area */
+  .logout-btn {
+    margin-top: auto;
+    color: var(--danger-color);
+  }
+  
+  .logout-btn:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+  }
+  
+  .logout-btn .nav-icon {
+    color: var(--danger-color);
+  }
+  
+  .sidebar-footer {
+    padding: var(--spacing-md);
+    text-align: center;
+    font-size: var(--font-size-sm);
+    color: var(--sidebar-icon-color);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    transition: opacity var(--transition-base);
+  }

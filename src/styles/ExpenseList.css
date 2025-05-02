@@ -1,0 +1,548 @@
+/* --- src/styles/ExpenseList.css --- */
+/* Enhanced Version for Professional Look */
+
+/* Uses variables defined in Dashboard.css's :root */
+
+/*-------------------------*\
+  #COMPONENT WRAPPER
+\*-------------------------*/
+.expense-list-wrapper {
+    font-family: var(--font-family-sans);
+    /* Spacing is likely handled by the parent container (.recent-expenses),
+       but add margin if needed */
+    /* margin-top: var(--spacing-lg); */
+}
+
+/*-------------------------*\
+  #FILTERS SECTION
+\*-------------------------*/
+.filters-container {
+    /* Keep card styling from dashboard theme */
+    background-color: var(--card-bg);
+    padding: var(--spacing-lg) var(--spacing-xl); /* More padding */
+    border-radius: var(--border-radius-lg); /* Match dashboard cards */
+    margin-bottom: var(--spacing-xl); /* More space below filters */
+    box-shadow: var(--card-shadow);
+    border: 1px solid transparent; /* Transparent border initially */
+    transition: box-shadow var(--transition-base), border-color var(--transition-base);
+    position: relative; /* For potential pseudo-elements */
+    overflow: hidden; /* Contain potential effects */
+}
+
+/* Subtle hover effect for the filter container */
+.filters-container:hover {
+    box-shadow: var(--card-shadow-hover);
+    /* border-color: var(--border-color); */ /* Optional: show border on hover */
+}
+
+.filters-title {
+    font-size: 1.15rem; /* Slightly smaller than h3 */
+    font-weight: 600;
+    color: var(--content-text);
+    margin: 0 0 var(--spacing-lg) 0; /* Adjusted margin */
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.filters-title svg { /* Target the icon */
+    color: var(--primary-color);
+    font-size: 1.2em;
+}
+
+.filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Slightly larger min width */
+    gap: var(--spacing-lg); /* Increased gap */
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: column;
+    position: relative; /* For potential icon placement */
+}
+
+.filter-item label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: #4B5563; /* Gray-600 */
+    margin-bottom: var(--spacing-xs);
+    padding-left: var(--spacing-xs); /* Slight indent */
+}
+
+.filter-input,
+.filter-select {
+    padding: 0.75rem var(--spacing-md); /* Slightly taller inputs */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md); /* Consistent radius */
+    font-size: 0.95rem; /* Slightly smaller font inside input */
+    background-color: #fff;
+    color: var(--content-text);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    line-height: 1.4; /* Ensure text is vertically centered */
+    width: 100%; /* Ensure full width within grid cell */
+}
+
+/* Enhanced focus state */
+.filter-input:focus,
+.filter-select:focus {
+    outline: none;
+    border-color: var(--primary-color-light);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); /* Softer, slightly larger focus ring */
+}
+
+/* Placeholder styling */
+.filter-input::placeholder {
+    color: #9CA3AF; /* Gray-400 */
+    font-size: 0.95rem;
+}
+
+/* Select arrow styling refinement */
+.filter-select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="%236B7280"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>'); /* Modern Chevron */
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1.25em 1.25em;
+    padding-right: 3rem; /* More space for the custom arrow */
+}
+
+/* Date input specific styling (can be tricky cross-browser) */
+.filter-input[type="date"] {
+    position: relative;
+}
+
+/* Consider hiding default date icon if possible/needed, requires vendor prefixes */
+/* .filter-input[type="date"]::-webkit-calendar-picker-indicator { } */
+
+/*-------------------------*\
+  #LOADING & EMPTY STATES
+\*-------------------------*/
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xxl); /* More padding */
+    color: var(--sidebar-icon-color); /* Use a theme color */
+    text-align: center;
+    min-height: 200px;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius-lg);
+    margin-top: var(--spacing-lg);
+}
+
+/* More engaging spinner */
+.spinner {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    position: relative;
+    animation: rotateSpinner 1s linear infinite;
+    margin-bottom: var(--spacing-lg);
+}
+.spinner::before , .spinner::after {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0px;
+    border-radius: 50%;
+    border: 5px solid var(--border-color);
+    animation: prixClipFix 2s linear infinite ;
+}
+.spinner::after{
+    border-color: var(--primary-color);
+    animation: prixClipFix 2s linear infinite , rotateSpinner 0.5s linear infinite reverse;
+    inset: 6px;
+}
+
+@keyframes rotateSpinner {
+    0%   {transform: rotate(0deg)}
+    100% {transform: rotate(360deg)}
+}
+
+@keyframes prixClipFix {
+    0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+    25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+    50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+    75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
+    100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
+}
+
+.error-message {
+    color: var(--danger-color);
+    background-color: rgba(239, 68, 68, 0.05); /* Lighter background */
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    text-align: center;
+    margin: var(--spacing-lg) 0;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    font-weight: 500;
+}
+
+.no-expenses {
+    text-align: center;
+    color: #6B7280; /* Gray-500 */
+    padding: var(--spacing-xxl); /* More padding */
+    font-size: var(--font-size-lg);
+    font-style: normal; /* Less italic */
+    font-weight: 500;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius-lg);
+    margin-top: var(--spacing-lg);
+    display: flex; /* For icon alignment */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.no-expenses::before { /* Add an icon */
+    content: '🤔'; /* Or use a FontAwesome/React icon */
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+    display: block;
+    opacity: 0.6;
+}
+
+
+/*-------------------------*\
+  #TABLE STYLING
+\*-------------------------*/
+.table-responsive {
+    overflow-x: auto;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius-lg); /* Match filters */
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+    margin-top: var(--spacing-lg);
+    transition: box-shadow var(--transition-base);
+}
+
+.table-responsive:hover {
+     box-shadow: var(--card-shadow-hover);
+}
+
+
+.expenses-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px; /* Slightly wider min-width */
+    /* font variant numeric for better number alignment */
+    font-variant-numeric: tabular-nums;
+}
+
+.expenses-table thead {
+    background-color: #F9FAFB; /* Very light gray header */
+    border-bottom: 2px solid var(--border-color); /* Thicker border */
+}
+
+.expenses-table th {
+    padding: 0.85rem var(--spacing-lg); /* Adjusted padding */
+    text-align: left;
+    font-size: 0.75rem; /* Smaller header font */
+    font-weight: 600;
+    color: #4B5563; /* Gray-600 */
+    text-transform: uppercase; /* Uppercase headers */
+    letter-spacing: 0.06em; /* More spacing */
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+    user-select: none;
+    position: relative; /* For sort icon positioning */
+}
+
+.expenses-table th:hover {
+    background-color: #F3F4F6;
+    color: var(--content-text); /* Darker text on hover */
+}
+
+/* Align sort icon nicely */
+.expenses-table th svg {
+    vertical-align: middle;
+    font-size: 1em; /* Relative to th font size */
+    margin-left: var(--spacing-sm);
+}
+
+.expenses-table th .sort-icon {
+    opacity: 0.4;
+    transition: opacity var(--transition-fast), color var(--transition-fast);
+    /* position: absolute; */ /* Alternative: absolute positioning */
+    /* right: var(--spacing-md); */
+    /* top: 50%; */
+    /* transform: translateY(-50%); */
+}
+
+.expenses-table th:hover .sort-icon.neutral {
+    opacity: 0.8;
+}
+.expenses-table th .sort-icon.active {
+    opacity: 1;
+    color: var(--primary-color);
+}
+
+
+.expenses-table tbody tr {
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color var(--transition-base), transform var(--transition-fast);
+}
+
+.expenses-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+/* Subtle hover effect for rows */
+.expenses-table tbody tr:hover {
+    background-color: rgba(99, 102, 241, 0.04); /* Very light primary color bg */
+    /* transform: scale(1.005); */ /* Optional: slight scale effect - can be jumpy */
+}
+
+
+.expenses-table td {
+    padding: 0.9rem var(--spacing-lg); /* Match header vertical padding */
+    font-size: 0.9rem; /* Slightly smaller body font */
+    color: #374151; /* Gray-700 */
+    vertical-align: middle;
+    line-height: 1.5;
+}
+
+/* Style for the Title column */
+.expenses-table td:first-child {
+    font-weight: 500; /* Make title slightly bolder */
+    color: var(--content-text);
+    max-width: 250px; /* Prevent very long titles */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Category Pills/Badges */
+.expenses-table td:nth-child(2) { /* Target category column */
+    /* Basic pill style - can be customized further */
+   /* Consider creating a CategoryPill component for more complex logic/colors */
+   /* display: inline-block; */ /* If making it a component */
+   /* padding: var(--spacing-xs) var(--spacing-sm); */
+   /* background-color: #E0E7FF; */ /* Indigo-100 */
+   /* color: var(--primary-color-dark); */ /* Indigo-700 */
+   /* border-radius: var(--border-radius-full); */
+   /* font-size: 0.75rem; */
+   /* font-weight: 500; */
+   /* white-space: nowrap; */
+}
+
+/* Amount column refinement */
+.amount-column {
+    text-align: left;
+    font-weight: 600; /* Bolder amount */
+    color: var(--content-text);
+    font-size: 0.95rem; /* Slightly larger amount font */
+    white-space: nowrap;
+}
+
+/* Date column */
+.expenses-table td:last-child {
+    color: #6B7280; /* Lighter date text */
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+/*-------------------------*\
+  #PAGINATION
+\*-------------------------*/
+.pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md) var(--spacing-xl); /* Consistent horizontal padding */
+    margin-top: 0; /* Remove margin as it's part of the table container */
+    background-color: #F9FAFB;
+    border-top: 1px solid var(--border-color);
+    border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg); /* Match container */
+}
+
+.pagination-info {
+    font-size: var(--font-size-sm);
+    color: #6B7280;
+    font-weight: 500;
+}
+
+.pagination-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; /* Center content */
+    gap: var(--spacing-xs);
+    padding: 0.6rem var(--spacing-md); /* Adjusted padding */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    background-color: #fff;
+    color: #374151; /* Gray-700 */
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Subtle shadow */
+    transition: all var(--transition-fast);
+}
+
+.pagination-button svg { /* Ensure icons are sized correctly */
+    width: 1em;
+    height: 1em;
+}
+
+.pagination-button:hover:not(:disabled) {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transform: translateY(-1px); /* Slight lift */
+}
+
+.pagination-button:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+
+.pagination-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #F9FAFB; /* Match pagination bg */
+    box-shadow: none;
+}
+
+
+/*-------------------------*\
+  #RESPONSIVENESS
+\*-------------------------*/
+@media (max-width: 767px) {
+    .filters-container {
+        padding: var(--spacing-lg);
+    }
+
+    .filters-grid {
+        grid-template-columns: 1fr; /* Stack filters */
+        gap: var(--spacing-md);
+    }
+
+    .expenses-table {
+        min-width: auto; /* Allow table to shrink more */
+        font-size: 0.85rem; /* Smaller base font for mobile table */
+    }
+
+    .expenses-table th,
+    .expenses-table td {
+        padding: var(--spacing-sm) var(--spacing-sm); /* Less padding */
+        white-space: normal; /* Allow wrapping in cells */
+    }
+     /* Keep crucial columns from wrapping excessively */
+    .expenses-table th:nth-child(3), /* Amount Header */
+    .expenses-table td:nth-child(3), /* Amount Cell */
+    .expenses-table th:nth-child(4), /* Date Header */
+    .expenses-table td:nth-child(4) { /* Date Cell */
+        white-space: nowrap;
+    }
+
+    .amount-column { font-size: 0.9rem; } /* Adjust amount font size */
+    .expenses-table td:last-child { font-size: 0.8rem; } /* Adjust date font size */
+
+    .pagination-controls {
+        flex-direction: column;
+        gap: var(--spacing-md); /* Increased gap */
+        padding: var(--spacing-lg);
+    }
+     .pagination-info { order: 1; }
+     .pagination-button:first-of-type { order: 0; width: 100%; justify-content: center; } /* Full width buttons */
+     .pagination-button:last-of-type { order: 2; width: 100%; justify-content: center; }
+     body {
+        padding-top: 50px; /* Adjust body padding for smaller header */
+      }
+    
+      .dashboard-content {
+        padding-top: calc(var(--spacing-md) + 50px); /* Adjust dashboard content padding */
+        margin-left: var(--sidebar-width-collapsed);
+      }
+    
+      .sidebar {
+        top: 50px; /* Adjust sidebar top for smaller header */
+      }
+}
+
+@media (max-width: 480px) {
+    .filters-container { padding: var(--spacing-md); }
+    .filters-grid { gap: var(--spacing-sm); }
+
+    /* Further reduce padding/font if needed */
+    .expenses-table th, .expenses-table td {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: 0.8rem;
+    }
+    .amount-column { font-size: 0.85rem; }
+    .expenses-table td:last-child { font-size: 0.75rem; }
+}
+.download-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background-color var(--transition-base), transform var(--transition-fast), box-shadow var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    /* Align to the right within the filters container */
+    align-self: flex-end;
+    margin-top: var(--spacing-md); /* Add some space above the button */
+    opacity: 1; /* Ensure it's always visible */
+}
+
+.download-button:hover {
+    background-color: var(--primary-color-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.download-button:active {
+    transform: translateY(0);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.download-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #9CA3AF; /* Gray-400 */
+    color: #F3F4F6; /* Gray-200 */
+}
+/*-------------------------*\
+  #BUTTON STYLES (Add this section if you don't have it)
+\*-------------------------*/
+/*-------------------------*\
+  #BUTTON STYLES (Make sure this section exists)
+\*-------------------------*/
+.delete-button {
+        background-color: var(--danger-color);
+        color: white;
+        border: none;
+        padding: 0.5rem 0.75rem;
+        border-radius: var(--border-radius-sm);
+        cursor: pointer;
+        font-size: 0.85rem;
+        transition: background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+    }
+    
+    .delete-button:hover {
+        background-color: var(--danger-color); /* Keep the background red on hover */
+        transform: translateY(-1px);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+    
+    .delete-button:active {
+        transform: translateY(0);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    }

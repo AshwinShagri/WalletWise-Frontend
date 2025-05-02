@@ -1,0 +1,283 @@
+/* styles/ManualExpense.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #4a90e2; /* Blue */
+    --primary-dark: #3a7ac1;
+    --secondary-color: #50e3c2; /* Teal */
+    --text-color: #333;
+    --text-light: #666;
+    --bg-color: #f4f7f9;
+    --card-bg: #ffffff;
+    --border-color: #d1d9e0;
+    --input-bg: #f8f9fa;
+    --input-focus-border: var(--primary-color);
+    --error-color: #e74c3c; /* Red */
+    --error-bg: #fbecea;
+    --success-color: #2ecc71; /* Green */
+    --font-family: 'Inter', sans-serif;
+    --border-radius: 8px;
+    --card-padding: 30px;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+.manual-expense-page {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    min-height: 100vh;
+    padding: 20px; /* Padding around the whole page */
+    color: var(--text-color);
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 800px; /* Match card width */
+    margin: 0 auto 25px auto; /* Center header above card */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 15px;
+}
+
+.page-header h1 {
+    font-size: 26px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-color);
+    flex-grow: 1; /* Allow title to take space */
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.back-link:hover {
+    background-color: #e9ecef;
+    color: var(--text-color);
+}
+
+.user-info-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #e9ecef;
+    color: var(--text-light);
+    padding: 6px 12px;
+    border-radius: 16px; /* Pill shape */
+    font-size: 13px;
+}
+
+.user-info-chip svg {
+    margin-bottom: -2px; /* Align icon better */
+}
+
+
+.manual-expense-container.card {
+    max-width: 800px;
+    margin: 0 auto; /* Center the card */
+    background-color: var(--card-bg);
+    padding: var(--card-padding);
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.manual-expense-container h2 { /* Use page-header h1 now */
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Increased gap between form groups */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Gap between label and input */
+}
+
+.form-group label {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 6px; /* Space between icon and label text */
+}
+
+.form-group label svg {
+    color: var(--primary-color); /* Color the icons */
+    font-size: 1em; /* Match label font size */
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group select {
+    width: 100%;
+    padding: 12px 15px; /* Increased padding */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--input-bg);
+    font-size: 15px;
+    color: var(--text-color);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    appearance: none; /* Remove default styling, especially for select */
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+/* Style select arrow */
+.form-group select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.7rem center;
+    background-repeat: no-repeat;
+    background-size: 1.2em 1.2em;
+    padding-right: 2.5rem; /* Make space for arrow */
+}
+
+/* Focus States */
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2); /* Focus ring */
+}
+
+/* Disabled state */
+.form-group input:disabled,
+.form-group select:disabled,
+.submit-button:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Placeholder style */
+.form-group input::placeholder {
+    color: #adb5bd;
+}
+
+/* Custom Category Transition */
+.custom-category-group {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease-out, opacity 0.3s ease-out 0.1s, margin-top 0.4s ease-out;
+    margin-top: 0; /* No margin when hidden */
+    /* No padding/border when hidden */
+}
+
+.custom-category-group.visible {
+    max-height: 150px; /* Adjust based on content height */
+    opacity: 1;
+    margin-top: 0; /* Adjust if you removed gap from form group */
+    /* Add back padding/border if needed */
+}
+/* Ensure inner elements are not focusable when hidden */
+.custom-category-group:not(.visible) input {
+    visibility: hidden;
+}
+
+
+/* Error Message Styling */
+.error-message.form-error {
+    background-color: var(--error-bg);
+    color: var(--error-color);
+    border: 1px solid var(--error-color);
+    padding: 12px 15px;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 5px; /* Add some space above */
+}
+
+.form-actions {
+    margin-top: 15px; /* Space above the button */
+    text-align: center; /* Center the button */
+}
+
+.submit-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 30px; /* Generous padding */
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    display: inline-flex; /* Align icon and text */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 180px; /* Give button some minimum width */
+}
+
+.submit-button:hover:not(:disabled) {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px); /* Subtle lift */
+}
+
+.submit-button:active:not(:disabled) {
+    transform: translateY(0px); /* Push down on click */
+}
+
+/* Loading Spinner */
+.spinner-icon {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .manual-expense-container.card {
+        padding: 20px;
+    }
+    .page-header h1 {
+        font-size: 22px;
+    }
+    form {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .manual-expense-page {
+        padding: 15px;
+    }
+     .page-header {
+         flex-direction: column;
+         align-items: flex-start; /* Align items left */
+     }
+    .manual-expense-container.card {
+        padding: 15px;
+    }
+    .form-group input, .form-group select {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+    .submit-button {
+        width: 100%; /* Full width button */
+        padding: 12px 20px;
+        font-size: 15px;
+    }
+}

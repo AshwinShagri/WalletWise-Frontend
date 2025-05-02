@@ -1,0 +1,42 @@
+/* index.css */
+/* Remove default margins and paddings */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Apply a smooth transition for background and color */
+body {
+  background: #ffffff;
+  color: #000000;
+  font-family: Arial, sans-serif;
+  transition: background 0.3s ease, color 0.3s ease;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden; /* Prevent unwanted horizontal scrolling */
+}
+
+/* Ensure root container takes full space */
+#root,
+.App {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Styled button */
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #0056b3;
+}
