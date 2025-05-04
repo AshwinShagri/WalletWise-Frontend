@@ -6,7 +6,7 @@ import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 import "../styles/Profile.css";
 import { ArrowLeft, User, DollarSign } from 'react-feather';
 
-const avatars = Array.from({ length: 20 }, (_, i) => `/avatars/${i + 1}.png`);
+const avatars = Array.from({ length: 20 }, (_, i) => `/Avatars/${i + 1}.png`);
 const currencies = ["INR (₹)", "USD ($)", "EUR (€)", "GBP (£)"];
 
 const Profile = () => {
